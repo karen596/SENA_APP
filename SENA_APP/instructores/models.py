@@ -1,4 +1,6 @@
 from django.db import models
+
+# Create your models here.
 class Instructor(models.Model):
     TIPO_DOCUMENTO_CHOICES = [
         ('CC', 'Cédula de Ciudadanía'),
@@ -26,7 +28,7 @@ class Instructor(models.Model):
     ciudad = models.CharField(max_length=100, null=True)
     direccion = models.TextField(null=True)
     nivel_educativo= models.CharField(max_length=3, choices=NIVEL_EDUCATIVO_CHOICES, default='MAE')
-    Especialidad = models.CharField(max_length=100)
+    especialidad = models.CharField(max_length=100)
     anos_experiencia = models.PositiveIntegerField()
     activo = models.BooleanField(default=True)
     fecha_vinculacion = models.DateField()
@@ -37,6 +39,3 @@ class Instructor(models.Model):
     
     def nombre_completo(self):
         return f"{self.nombre} {self.apellido}"
-    
-
-# Create your models here.
