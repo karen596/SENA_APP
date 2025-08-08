@@ -13,6 +13,9 @@
             <a class="btn btn-light btn-lg" href="{% url 'aprendices:lista_aprendices' %}" role="button">
                 Ver Aprendices
             </a>
+            <a class="btn btn-light btn-lg" href="{% url 'instructores:lista_instructores' %}" role="button">
+                Ver Instructores
+            </a>
         </div>
     </div>
 </div>
@@ -26,6 +29,7 @@
                 <p class="card-text">Total de Aprendices: {{ total_aprendices }}</p>
                 <a href="{% url 'aprendices:lista_aprendices' %}" class="btn btn-success">Ver Lista</a>
             </div>
+
         </div>
     </div>
     <div class="col-md-6">

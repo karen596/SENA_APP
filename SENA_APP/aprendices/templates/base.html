@@ -6,840 +6,232 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}SENA APP{% endblock %}</title>
     {% load static %}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
     <style>
-        :root {
-            --primary: #6366f1;
-            --primary-light: #8b5cf6;
-            --secondary: #06d6a0;
-            --accent: #f59e0b;
-            --danger: #ef4444;
-            --success: #10b981;
-            
-            --dark: #0f0f23;
-            --dark-light: #1a1a2e;
-            --dark-lighter: #16213e;
-            
-            --light: #ffffff;
-            --light-gray: #f8fafc;
-            --gray: #64748b;
-            --gray-light: #cbd5e1;
-            --border: #e2e8f0;
-            
-            --gradient-primary: linear-gradient(135deg, #6366f1, #8b5cf6);
-            --gradient-secondary: linear-gradient(135deg, #06d6a0, #34d399);
-            --gradient-accent: linear-gradient(135deg, #f59e0b, #fbbf24);
-            
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            
-            --glow-primary: 0 0 30px rgba(99, 102, 241, 0.4);
-            --glow-secondary: 0 0 30px rgba(6, 214, 160, 0.4);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--dark);
-            color: var(--light);
-            overflow-x: hidden;
-            position: relative;
-            line-height: 1.6;
-            font-weight: 400;
-        }
-
-        /* Animated Mesh Background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(6, 214, 160, 0.1) 0%, transparent 50%);
-            z-index: -2;
-            animation: meshMove 20s ease-in-out infinite;
-        }
-
-        @keyframes meshMove {
-            0%, 100% { 
-                background: 
-                    radial-gradient(circle at 20% 80%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-                    radial-gradient(circle at 40% 40%, rgba(6, 214, 160, 0.1) 0%, transparent 50%);
-            }
-            33% { 
-                background: 
-                    radial-gradient(circle at 60% 60%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-                    radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 20%, rgba(6, 214, 160, 0.1) 0%, transparent 50%);
-            }
-            66% { 
-                background: 
-                    radial-gradient(circle at 80% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-                    radial-gradient(circle at 30% 60%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
-                    radial-gradient(circle at 60% 80%, rgba(6, 214, 160, 0.1) 0%, transparent 50%);
-            }
-        }
-
-        /* Floating orbs */
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: -1;
-            filter: blur(40px);
-            opacity: 0.6;
-        }
-
-        .orb1 {
-            width: 100px;
-            height: 100px;
-            background: var(--gradient-primary);
-            top: 20%;
-            left: 10%;
-            animation: float1 15s ease-in-out infinite;
-        }
-
-        .orb2 {
-            width: 150px;
-            height: 150px;
-            background: var(--gradient-secondary);
-            top: 60%;
-            right: 15%;
-            animation: float2 12s ease-in-out infinite reverse;
-        }
-
-        .orb3 {
-            width: 80px;
-            height: 80px;
-            background: var(--gradient-accent);
-            bottom: 20%;
-            left: 20%;
-            animation: float3 18s ease-in-out infinite;
-        }
-
-        @keyframes float1 {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
-        }
-
-        @keyframes float2 {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            50% { transform: translate(-40px, -40px) rotate(180deg); }
-        }
-
-        @keyframes float3 {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(20px, -30px); }
-            50% { transform: translate(-30px, -10px); }
-            75% { transform: translate(10px, 20px); }
-        }
-
-        /* Modern Navbar */
-        .navbar {
-            background: rgba(15, 15, 35, 0.8);
-            backdrop-filter: blur(20px) saturate(180%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 1.5rem 0;
-            position: relative;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .navbar::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60%;
-            height: 1px;
-            background: var(--gradient-primary);
-            opacity: 0.6;
-            animation: pulseGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { 
-                opacity: 0.3; 
-                width: 30%; 
-            }
-            50% { 
-                opacity: 0.8; 
-                width: 80%; 
-            }
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
         }
 
         .navbar-brand {
-            font-family: 'Fira Code', monospace;
-            font-weight: 700;
-            font-size: 1.6rem;
-            color: var(--light) !important;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            position: relative;
-            transition: all 0.3s ease;
+            font-weight: bold;
         }
 
-        .navbar-brand:hover {
-            transform: scale(1.05);
-            filter: drop-shadow(var(--glow-primary));
+        .jumbotron {
+            background: linear-gradient(135deg, #28a745, #20c997);
         }
 
-        .navbar-brand img {
-            border: 2px solid transparent;
-            border-radius: 12px;
-            background: var(--gradient-secondary);
-            padding: 2px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .navbar-brand:hover img {
-            border-color: var(--secondary);
-            transform: rotate(5deg) scale(1.1);
-            box-shadow: var(--glow-secondary);
-        }
-
-        .nav-link {
-            color: var(--gray) !important;
-            font-weight: 500;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 12px 20px !important;
-            border-radius: 8px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            font-family: 'Inter', sans-serif;
-            overflow: hidden;
-        }
-
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 100%;
-            background: var(--gradient-primary);
-            transition: width 0.3s ease;
-            z-index: -1;
-        }
-
-        .nav-link:hover {
-            color: var(--light) !important;
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .nav-link:hover::before {
-            width: 100%;
-        }
-
-        .nav-link i {
-            transition: transform 0.3s ease;
-        }
-
-        .nav-link:hover i {
-            transform: scale(1.2);
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-        }
-
-        main {
-            min-height: calc(100vh - 200px);
-            padding: 3rem 0;
-            position: relative;
-        }
-
-        /* Modern Cards */
         .card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            box-shadow: var(--shadow-xl);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-            color: var(--light);
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: var(--gradient-primary);
-            opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: transform 0.2s;
+            border: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .card:hover {
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 
-                var(--shadow-xl),
-                0 0 40px rgba(99, 102, 241, 0.2);
-            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
-        .card:hover::before {
-            opacity: 1;
+        .table th {
+            border-top: none;
         }
 
-        .card-header {
-            background: rgba(99, 102, 241, 0.1);
-            border: none;
-            padding: 1.5rem;
-            border-radius: 16px 16px 0 0;
-            position: relative;
-            font-family: 'Fira Code', monospace;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(40, 167, 69, 0.05);
         }
 
-        .card-header h5 {
-            color: var(--light);
-            font-weight: 600;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .card-header h5::before {
-            content: '';
-            width: 4px;
-            height: 20px;
-            background: var(--gradient-secondary);
-            border-radius: 2px;
-        }
-
-        /* Enhanced Table */
-        .table-responsive {
-            border-radius: 12px;
-            overflow: hidden;
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .table {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            color: var(--light);
-        }
-
-        .table thead {
-            background: var(--gradient-primary);
-        }
-
-        .table thead th {
-            border: none;
-            color: var(--light);
-            font-weight: 600;
-            padding: 1.2rem 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 0.8rem;
-        }
-
-        .table tbody tr {
-            transition: all 0.3s ease;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .table tbody tr:hover {
-            background: rgba(99, 102, 241, 0.1);
-            transform: scale(1.01);
-        }
-
-        .table tbody td {
-            padding: 1rem;
-            border: none;
-            vertical-align: middle;
-            color: var(--light);
-        }
-
-        /* Modern Buttons */
-        .btn {
-            border-radius: 8px;
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            padding: 12px 24px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-size: 0.8rem;
-            position: relative;
-            overflow: hidden;
-            border: none;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary {
-            background: var(--gradient-primary);
-            color: var(--light);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 
-                var(--shadow-lg),
-                var(--glow-primary);
-            color: var(--light);
-        }
-
-        .btn-info {
-            background: var(--gradient-secondary);
-            color: var(--dark);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-info:hover {
-            transform: translateY(-2px);
-            box-shadow: 
-                var(--shadow-lg),
-                var(--glow-secondary);
-            color: var(--dark);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--light);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-            color: var(--light);
-        }
-
-        /* Modern Alert */
-        .alert {
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--light);
-            font-family: 'Inter', sans-serif;
-            padding: 1.25rem;
+        footer {
+            margin-top: auto;
         }
 
         .alert-info {
-            border-left: 4px solid var(--primary);
-            background: rgba(99, 102, 241, 0.1);
+            border-left: 4px solid #17a2b8;
         }
 
-        /* Modal Enhancement */
-        .modal-content {
-            border-radius: 16px;
-            background: rgba(15, 15, 35, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: var(--shadow-xl);
+        .badge {
+            font-size: 0.8em;
         }
 
-        .modal-header {
-            background: var(--gradient-primary);
-            border: none;
-            color: var(--light);
-            border-radius: 16px 16px 0 0;
+                .card-header {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+        .badge-sena {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+        .instructor-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #6c757d, #495057);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .back-link {
+            text-decoration: none;
+            color: #28a745;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            color: #20c997;
         }
 
-        .modal-title {
-            font-family: 'Fira Code', monospace;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 1rem;
-            font-weight: 600;
+        .card-header {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
         }
-
-        /* Footer */
-        footer {
-            background: rgba(15, 15, 35, 0.8);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        .badge-sena {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+        .instructor-avatar {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #6c757d, #495057);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 2.5rem;
+            margin: 0 auto;
+        }
+        .info-item {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+        .curso-card:hover {
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        .back-link {
+            text-decoration: none;
+            color: #28a745;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            color: #20c997;
+        }
+        .status-active {
+            color: #28a745;
+        }
+        .status-inactive {
+            color: #dc3545;
+        }
+                .card-header {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+        
+        .programa-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #28a745, #20c997);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            margin: 0 auto;
+        }
+        .info-card {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 20px;
+            border-radius: 0 10px 10px 0;
+            height: 100%;
+        }
+        .curso-card:hover {
+            transform: translateY(-3px);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .back-link {
+            text-decoration: none;
+            color: #28a745;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            color: #20c997;
+        }
+        .estado-badge {
+            font-size: 0.9rem;
+            padding: 8px 15px;
+        }
+        .modalidad-icon {
+            width: 50px;
+            height: 50px;
+            background: #e9ecef;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #495057;
+        }
+        .timeline-item {
+            border-left: 3px solid #28a745;
+            padding-left: 20px;
+            margin-bottom: 20px;
             position: relative;
-            margin-top: 4rem;
         }
-
-        footer::before {
+        .timeline-item::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60%;
-            height: 1px;
-            background: var(--gradient-secondary);
-            opacity: 0.6;
-        }
-
-        footer p {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.85rem;
-            color: var(--gray);
-            margin: 0;
-        }
-
-        .social-links a {
-            color: var(--gray);
-            font-size: 1.3rem;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            padding: 8px;
-            border-radius: 8px;
-        }
-
-        .social-links a:hover {
-            color: var(--secondary);
-            background: rgba(6, 214, 160, 0.1);
-            transform: translateY(-2px);
-            box-shadow: var(--glow-secondary);
-        }
-
-        /* Loading animation */
-        .loading-dots {
-            display: inline-block;
-            position: relative;
-            width: 80px;
-            height: 80px;
-        }
-
-        .loading-dots div {
-            position: absolute;
-            top: 33px;
+            left: -8px;
+            top: 5px;
             width: 13px;
             height: 13px;
+            background: #28a745;
             border-radius: 50%;
-            background: var(--secondary);
-            animation: loadingDots 1.2s linear infinite;
-        }
-
-        .loading-dots div:nth-child(1) { left: 8px; animation-delay: 0s; }
-        .loading-dots div:nth-child(2) { left: 8px; animation-delay: -0.4s; }
-        .loading-dots div:nth-child(3) { left: 32px; animation-delay: -0.8s; }
-
-        @keyframes loadingDots {
-            0% {
-                transform: scale(0);
-            }
-            100% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .navbar-brand {
-                font-size: 1.3rem;
-            }
-            
-            .card {
-                margin-bottom: 2rem;
-            }
-            
-            .btn {
-                padding: 10px 20px;
-                font-size: 0.75rem;
-            }
-            
-            .table {
-                font-size: 0.8rem;
-            }
-
-            .orb1, .orb2, .orb3 {
-                display: none;
-            }
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--dark);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--gradient-primary);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--gradient-secondary);
-        }
-
-        /* Selection */
-        ::selection {
-            background: rgba(99, 102, 241, 0.3);
-            color: var(--light);
-        }
-
-        /* Utility classes */
-        .text-gradient-primary {
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .text-gradient-secondary {
-            background: var(--gradient-secondary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .glass-effect {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
+
 </head>
 
 <body>
-    <!-- Floating orbs -->
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
-    <div class="orb orb3"></div>
-
-    <nav class="navbar navbar-expand-lg fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
         <div class="container">
             <a class="navbar-brand" href="{% url 'aprendices:inicio' %}">
-                <img width="40px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSX6Gat1r36ATdBS7sTqqFH8TvIVPMkqsdLgw&s" alt="Logo Sena">
-                <span class="text-gradient-primary">SENA_APP</span>
+                <img width="50px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSX6Gat1r36ATdBS7sTqqFH8TvIVPMkqsdLgw&s" alt="Logo Sena">
+                <strong>SENA APP</strong>
             </a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span style="color: var(--secondary);"><i class="fas fa-bars"></i></span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'aprendices:inicio' %}">
-                            <i class="fas fa-home me-2"></i>INICIO
-                        </a>
+                        <a class="nav-link" href="{% url 'aprendices:inicio' %}">Inicio</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'admin:index' %}">
-                            <i class="fas fa-user-shield me-2"></i>ADMIN
-                        </a>
+                        <a class="nav-link" href="{% url 'admin:index' %}">Panel Admin</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <main class="container" style="margin-top: 120px;">
+    <main class="container mt-4">
         {% block content %}
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5><i class="fas fa-rocket me-2"></i>Bienvenido al Sistema SENA</h5>
-                    </div>
-                    <div class="card-body p-4">
-                        <p class="mb-4" style="color: var(--gray-light); line-height: 1.8;">
-                            Sistema moderno de gestión de aprendices con diseño renovado y funcionalidades avanzadas.
-                        </p>
-                        <div class="d-flex gap-3 flex-wrap">
-                            <button class="btn btn-primary">
-                                <i class="fas fa-users me-2"></i>Ver Aprendices
-                            </button>
-                            <button class="btn btn-info">
-                                <i class="fas fa-plus me-2"></i>Nuevo Registro
-                            </button>
-                            <button class="btn btn-secondary">
-                                <i class="fas fa-chart-bar me-2"></i>Reportes
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         {% endblock %}
     </main>
 
-    <footer class="text-center py-4">
+    <footer class="bg-dark text-white text-center py-3 mt-5">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-8 text-md-start">
-                    <p>&copy; 2025 <span class="text-gradient-secondary">SENA_APP</span> // Sistema de Gestión de Aprendices v3.0.0</p>
-                </div>
-                <div class="col-md-4 text-md-end">
-                    <div class="social-links">
-                        <a href="#"><i class="fab fa-github"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fas fa-globe"></i></a>
-                    </div>
-                </div>
-            </div>
+            <p>&copy; 2025 SENA APP - Sistema de Gestión de Aprendices</p>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <script>
-        // Enhanced particle system
-        class ParticleSystem {
-            constructor() {
-                this.particles = [];
-                this.maxParticles = 15;
-                this.init();
-            }
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 
-            init() {
-                this.createParticles();
-                this.animate();
-            }
-
-            createParticles() {
-                setInterval(() => {
-                    if (this.particles.length < this.maxParticles) {
-                        this.createParticle();
-                    }
-                }, 3000);
-            }
-
-            createParticle() {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                
-                const size = Math.random() * 4 + 2;
-                const colors = ['#6366f1', '#8b5cf6', '#06d6a0', '#f59e0b'];
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                
-                particle.style.cssText = `
-                    position: fixed;
-                    width: ${size}px;
-                    height: ${size}px;
-                    background: ${color};
-                    border-radius: 50%;
-                    pointer-events: none;
-                    z-index: -1;
-                    left: ${Math.random() * window.innerWidth}px;
-                    top: ${window.innerHeight + 10}px;
-                    filter: blur(1px);
-                    box-shadow: 0 0 ${size * 2}px ${color};
-                `;
-                
-                document.body.appendChild(particle);
-                this.particles.push(particle);
-                
-                this.animateParticle(particle);
-            }
-
-            animateParticle(particle) {
-                const duration = Math.random() * 8000 + 5000;
-                const drift = (Math.random() - 0.5) * 200;
-                
-                particle.animate([
-                    { 
-                        transform: 'translateY(0px) translateX(0px) rotate(0deg)',
-                        opacity: 1
-                    },
-                    { 
-                        transform: `translateY(-${window.innerHeight + 100}px) translateX(${drift}px) rotate(360deg)`,
-                        opacity: 0
-                    }
-                ], {
-                    duration: duration,
-                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-                }).onfinish = () => {
-                    particle.remove();
-                    const index = this.particles.indexOf(particle);
-                    if (index > -1) {
-                        this.particles.splice(index, 1);
-                    }
-                };
-            }
-
-            animate() {
-                // Continuous animation loop if needed
-                requestAnimationFrame(() => this.animate());
-            }
-        }
-
-        // Initialize particle system
-        const particleSystem = new ParticleSystem();
-
-        // Enhanced hover effects for cards
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-8px) scale(1.02) rotateX(2deg)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1) rotateX(0deg)';
-            });
-        });
-
-        // Smooth scroll enhancement
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Add intersection observer for fade-in animations
-        const observerOptions = {
-            threshold: 0.1
+</html>
